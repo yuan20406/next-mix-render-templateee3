@@ -22,14 +22,21 @@ dist/
 └── assets/         JS / CSS
 ```
 
-每个页面输出为一个独立文件（`ssgOptions.dirStyle: 'flat'`），`/about` → `about.html` 的对应关系在 `edgeone.json` 的 `rewrites` 里显式声明。
-不用 `about/index.html` 目录结构，是因为很多静态托管收到 `/about`（不带结尾斜杠）时不会去找 `about/index.html`，
-而是退回根目录的 `index.html`，导致所有页面都返回首页内容。
+这是 vite-ssg 的默认输出方式，项目里没有任何针对托管平台的路由配置。标准静态托管应当：
+
+| 请求 | 期望返回 |
+| --- | --- |
+| `/about` | `about.html`，200 |
+| `/todos` | `todos.html`，200 |
+| 不存在的地址，如 `/xxxx` | `404.html`，404 |
+
+如果平台对不存在的地址返回 `index.html`（首页内容，200），再由前端路由渲染出 404，说明平台启用了单页应用回退，这不是 SSG 的预期行为。
 
 验证方法（看服务器返回的原始 HTML，而不是浏览器渲染后的结果）：
 
 ```bash
-curl -s https://<你的域名>/about | grep -o '<h1[^>]*>[^<]*'   # 应输出 “关于”，而不是首页标题
+curl -s -o /dev/null -w '%{http_code}\n' https://<你的域名>/xxxx       # 期望 404
+curl -s https://<你的域名>/about | grep -o '<h1[^>]*>[^<]*'          # 期望输出 “关于”
 ```
 
 ## 技术栈
@@ -62,8 +69,7 @@ npm run preview   # 本地预览构建产物
 
 1. 在 `src/views/` 新建页面组件
 2. 在 `src/router/index.ts` 的 `routes` 中添加路由，并设置 `meta.title`
-3. 在 `edgeone.json` 的 `rewrites` 里加上 `/xxx` 和 `/xxx/` → `/xxx.html` 两条规则
-4. 不含动态参数（如 `:id`）的路由会自动预渲染；动态路由需要在 `vite.config.ts` 的 `ssgOptions.includedRoutes` 里列出要生成的具体路径
+3. 不含动态参数（如 `:id`）的路由会自动预渲染；动态路由需要在 `vite.config.ts` 的 `ssgOptions.includedRoutes` 里列出要生成的具体路径
 
 ## SSG 注意事项
 
@@ -72,19 +78,19 @@ npm run preview   # 本地预览构建产物
 
 ## 部署到 EdgeOne Pages
 
-仓库根目录的 `edgeone.json` 已配置好：
+仓库根目录的 `edgeone.json` 只包含构建设置，不包含任何路由规则：
 
 - 构建命令：`npm run build`
 - 输出目录：`dist`
 - Node 版本：`22.11.0`
-- `rewrites`：把 `/todos`、`/about`（含结尾斜杠形式）映射到对应的 `.html` 文件
-- 不配置 SPA 回退：每个页面都有自己的 HTML，不存在的地址由 `404.html` 处理。
-  如果在 EdgeOne 控制台里开启过 SPA / 单页应用回退，请关闭，否则不存在的地址会返回首页
+
+页面路由（`/about` → `about.html`）和 404（不存在的地址 → `404.html`）完全交给平台的静态托管处理，用于测试平台对标准 SSG 产物的兼容性。
 
 ## 目录结构
 
 ```
 ├── edgeone.json          EdgeOne Pages 配置
+├── edge-functions/       边缘函数：不存在的地址返回 404.html（状态码 404）
 ├── index.html            HTML 模板
 ├── public/               静态资源（原样复制）
 ├── src/

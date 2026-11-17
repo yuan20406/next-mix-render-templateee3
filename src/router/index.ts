@@ -3,10 +3,11 @@ import HomeView from '@/views/HomeView.vue'
 
 // 不含动态参数的路由会在构建时各自生成一个 HTML 文件：
 //   /       -> dist/index.html
-//   /todos  -> dist/todos/index.html
-//   /about  -> dist/about/index.html
-//   /404    -> dist/404/index.html，构建结束后再复制为 dist/404.html
+//   /todos  -> dist/todos.html
+//   /about  -> dist/about.html
+//   /404    -> dist/404.html（托管平台对不存在的地址返回它）
 // 通配路由不会被预渲染，只负责浏览器内跳转到不存在的地址时显示 404。
+// 新增页面后，记得在 edgeone.json 的 rewrites 里加上 /xxx -> /xxx.html。
 export const routes: RouteRecordRaw[] = [
   {
     path: '/',

@@ -2,5 +2,12 @@
   "nodeVersion": "22.11.0",
   "buildCommand": "npm run build",
   "installCommand": "npm install",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/todos", "destination": "/todos.html" },
+    { "source": "/todos/", "destination": "/todos.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/about/", "destination": "/about.html" },
+    { "source": "/404", "destination": "/404.html" }
+  ]
 }

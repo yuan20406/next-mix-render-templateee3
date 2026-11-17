@@ -1,0 +1,111 @@
+:root {
+  --brand: #42b883;
+  --brand-dark: #2c8a5f;
+  --brand-soft: #e8f7f0;
+  --text: #1f2933;
+  --text-muted: #5f6b7a;
+  --border: #e5e8ec;
+  --surface: #f5f7f9;
+  --danger: #d64545;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  background: #fafbfc;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+main.container {
+  flex: 1;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--brand);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn:hover {
+  background: var(--brand-dark);
+}
+
+.btn-ghost {
+  background: #fff;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.btn-ghost:hover {
+  background: var(--surface);
+}
+
+.page-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.page-desc {
+  margin: 0 0 28px;
+  color: var(--text-muted);
+}
+
+.footer {
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.15s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}

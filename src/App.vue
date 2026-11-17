@@ -7,6 +7,7 @@ const route = useRoute()
 
 // 标题在构建时就写进每个页面的 HTML，浏览器内切换页面时也会同步更新
 useHead({
+  htmlAttrs: { lang: 'zh-CN' },
   title: () => {
     const title = route.meta.title as string | undefined
     return title ? `${title} · Vue SSG 示例` : 'Vue SSG 示例'

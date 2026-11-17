@@ -28,16 +28,19 @@ dist/
 | 名称 | 用途 |
 | --- | --- |
 | Vue 3 | 前端框架，`<script setup>` 写法 |
-| Vite | 开发服务器与构建 |
-| vite-ssg | 构建时预渲染每个路由为静态 HTML |
+| Vite 6 | 开发服务器与构建 |
+| vite-ssg 27 | 构建时预渲染每个路由为静态 HTML |
 | @unhead/vue | 为每个页面写入独立的 `<title>` |
-| Vue Router | 路由，懒加载 + 通配 404 |
+| Vue Router 4 | 路由，懒加载 + 通配 404 |
 | Pinia | 状态管理，构建时状态序列化进 HTML |
 | TypeScript / vue-tsc | 类型检查 |
 
 ## 本地开发
 
-需要 Node.js `^20.19.0` 或 `>=22.12.0`。
+需要 Node.js `>=20.18.0`（已在 20.18.0、22.11.0、22.22 上验证构建）。
+
+> 构建工具固定在 Vite 6 + vite-ssg 27 + Vue Router 4：Vite 7/8、vite-ssg 28.3（jsdom 28）和 Vue Router 5 要求 Node ≥ 22.12，
+> 在 EdgeOne Pages 预装的 Node 22.11.0 / 20.18.0 上会构建失败。`edgeone.json` 里已指定 `nodeVersion: 22.11.0`。
 
 ```bash
 npm install

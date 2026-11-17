@@ -13,7 +13,7 @@ const features = [
   {
     tag: '路由',
     title: 'Vue Router 前端路由',
-    description: 'History 模式 + 路由懒加载，切换页面不刷新，刷新子页面也不会 404。',
+    description: '每个页面在构建时预渲染成独立 HTML，加载后切换页面依然不刷新。',
   },
   {
     tag: '状态管理',
@@ -21,17 +21,17 @@ const features = [
     description: '待办清单的数据放在 Pinia 里，并自动保存到浏览器 localStorage。',
   },
   {
-    tag: '工程化',
-    title: 'Vite + TypeScript',
-    description: '秒级启动的开发服务器，构建前用 vue-tsc 做类型检查。',
+    tag: '静态生成',
+    title: 'vite-ssg 预渲染',
+    description: '构建时输出纯静态页面，首屏直接是完整内容，对 SEO 友好，适合任意静态托管。',
   },
 ]
 </script>
 
 <template>
   <section class="hero">
-    <h1>一个干净的 <span class="accent">Vue 3</span> 单页应用</h1>
-    <p>基于 Vite 构建，内置路由、状态管理和 TypeScript，可以直接部署到 EdgeOne Pages。</p>
+    <h1>一个干净的 <span class="accent">Vue 3</span> 静态站点</h1>
+    <p>基于 Vite + vite-ssg 静态生成，内置路由、状态管理和 TypeScript，可以直接部署到 EdgeOne Pages。</p>
     <div class="actions">
       <RouterLink to="/todos" class="btn">试试待办清单</RouterLink>
       <button class="btn btn-ghost" type="button" @click="count++">点击计数：{{ count }}</button>

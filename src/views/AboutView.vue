@@ -4,6 +4,7 @@ import { version } from 'vue'
 const stack = [
   { name: 'Vue', desc: `渐进式前端框架（运行版本 ${version}）` },
   { name: 'Vite', desc: '开发服务器与构建工具' },
+  { name: 'vite-ssg', desc: '构建时把每个路由预渲染成静态 HTML' },
   { name: 'Vue Router', desc: '前端路由，History 模式' },
   { name: 'Pinia', desc: '官方推荐的状态管理库' },
   { name: 'TypeScript', desc: '类型检查，构建前由 vue-tsc 执行' },
@@ -12,7 +13,7 @@ const stack = [
 
 <template>
   <h1 class="page-title">关于</h1>
-  <p class="page-desc">这是一个用于演示的 Vue 单页应用，所有页面都在浏览器里渲染，没有服务端逻辑。</p>
+  <p class="page-desc">这是一个用于演示的 Vue 静态站点：页面在构建时生成好 HTML，浏览器加载后再接管交互，不需要服务端。</p>
 
   <ul class="stack">
     <li v-for="item in stack" :key="item.name">
@@ -23,7 +24,7 @@ const stack = [
 
   <h2>目录结构</h2>
   <pre class="tree">src/
-├── main.ts            应用入口
+├── main.ts            应用入口（ViteSSG）
 ├── App.vue            根组件（导航 + 路由出口）
 ├── router/index.ts    路由配置
 ├── stores/todos.ts    Pinia 待办 store

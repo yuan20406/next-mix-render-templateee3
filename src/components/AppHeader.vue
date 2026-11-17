@@ -11,7 +11,7 @@ const links = [
     <div class="container header-inner">
       <RouterLink to="/" class="brand">
         <img src="/favicon.svg" alt="" width="24" height="24" />
-        <span>Vue SPA 示例</span>
+        <span>Vue SSG 示例</span>
       </RouterLink>
       <nav class="nav">
         <RouterLink

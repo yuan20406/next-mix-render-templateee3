@@ -9,20 +9,14 @@ export interface Todo {
 
 export type Filter = 'all' | 'active' | 'done'
 
-const STORAGE_KEY = 'vue-spa-demo:todos'
-
-function load(): Todo[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? (JSON.parse(raw) as Todo[]) : []
-  } catch {
-    return []
-  }
-}
+const STORAGE_KEY = 'vue-ssg-demo:todos'
 
 export const useTodoStore = defineStore('todos', () => {
-  const items = ref<Todo[]>(load())
+  // 构建（服务端渲染）时没有 localStorage，初始一律为空列表，
+  // 页面在浏览器挂载后再调用 restore() 读取本地数据，避免水合不一致。
+  const items = ref<Todo[]>([])
   const filter = ref<Filter>('all')
+  const restored = ref(false)
 
   const visible = computed(() => {
     if (filter.value === 'active') return items.value.filter((t) => !t.done)
@@ -30,6 +24,17 @@ export const useTodoStore = defineStore('todos', () => {
     return items.value
   })
   const remaining = computed(() => items.value.filter((t) => !t.done).length)
+
+  function restore() {
+    if (restored.value || typeof window === 'undefined') return
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY)
+      if (raw) items.value = JSON.parse(raw) as Todo[]
+    } catch {
+      items.value = []
+    }
+    restored.value = true
+  }
 
   function add(text: string) {
     const value = text.trim()
@@ -50,7 +55,13 @@ export const useTodoStore = defineStore('todos', () => {
     items.value = items.value.filter((t) => !t.done)
   }
 
-  watch(items, (val) => localStorage.setItem(STORAGE_KEY, JSON.stringify(val)), { deep: true })
+  watch(
+    items,
+    (val) => {
+      if (restored.value) localStorage.setItem(STORAGE_KEY, JSON.stringify(val))
+    },
+    { deep: true },
+  )
 
-  return { items, filter, visible, remaining, add, toggle, remove, clearDone }
+  return { items, filter, restored, visible, remaining, restore, add, toggle, remove, clearDone }
 })

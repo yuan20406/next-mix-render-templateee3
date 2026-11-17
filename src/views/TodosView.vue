@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useTodoStore, type Filter } from '@/stores/todos'
 
 const store = useTodoStore()
 const { visible, remaining, filter, items } = storeToRefs(store)
 const draft = ref('')
+
+// 只在浏览器里读取 localStorage
+onMounted(() => store.restore())
 
 const filters: { value: Filter; label: string }[] = [
   { value: 'all', label: '全部' },
